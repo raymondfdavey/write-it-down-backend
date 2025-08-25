@@ -1,0 +1,31 @@
+{
+    "name": "diary-assistant-proxy",
+    "version": "1.0.0",
+    "description": "Privacy-first proxy server for Diary Assistant - no data storage or logging",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "node server.js"
+    },
+    "engines": {
+        "node": "18.x"
+    },
+    "dependencies": {
+        "express": "^4.18.2",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.3"
+    },
+    "keywords": [
+        "diary",
+        "journaling",
+        "privacy",
+        "proxy",
+        "openrouter"
+    ],
+    "author": "Your Name",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "your-github-repo-url"
+    }
+}
