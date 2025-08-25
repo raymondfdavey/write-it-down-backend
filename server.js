@@ -9,29 +9,26 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
-app.use(cors());
 
-// =============================================================================
-// 🔒 PRIVACY-FIRST API PROXY - No data storage, no logging, no tracking
-// =============================================================================
-// This proxy exists solely to keep API keys secure. It forwards your requests
-// to OpenRouter without storing, logging, or analyzing your conversations.
-//
-// What this server does:
-// ✅ Forwards your message to OpenRouter
-// ✅ Returns OpenRouter's response
-// ✅ Keeps API key secure
-//
-// What this server NEVER does:
-// ❌ Store your conversations
-// ❌ Log your messages
-// ❌ Analyze your data
-// ❌ Share your data with anyone
-// ❌ Keep any records
-// =============================================================================
+// Restrictive CORS - only allow your frontend domain
+const corsOptions = {
+  origin: [
+    "http://localhost:5173", // Vite dev server
+    "http://localhost:3000", // Alternative dev port
+    "https://your-frontend-domain.com", // Your production domain
+  ],
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 app.post("/api/chat", async (req, res) => {
   try {
+    // Simple authentication check
+    const authHeader = req.headers["x-api-key"];
+    if (!authHeader || authHeader !== process.env.FRONTEND_API_KEY) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
     const { messages, temperature = 0.8, top_p = 1 } = req.body;
 
     // Direct proxy to OpenRouter - no data stored anywhere
@@ -40,12 +37,14 @@ app.post("/api/chat", async (req, res) => {
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${process.env.VITE_OPENROUTER_API_KEY}`,
+          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
           "Content-Type": "application/json",
           // Optional: Add your app name for OpenRouter leaderboards
+          "HTTP-Referer": "https://your-app-name.herokuapp.com",
+          "X-Title": "Diary Assistant",
         },
         body: JSON.stringify({
-          model: process.env.VITE_MODEL,
+          model: process.env.MODEL,
           messages,
           temperature,
           top_p,
