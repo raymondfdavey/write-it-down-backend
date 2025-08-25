@@ -15,7 +15,7 @@ const corsOptions = {
   origin: [
     "http://localhost:5173", // Vite dev server
     "http://localhost:3000", // Alternative dev port
-    "https://raymondfdavey.github.io/write-it-down-frontend",
+    "https://raymondfdavey.github.io",
     "https://your-app.vercel.app", // If using Vercel
     "https://your-app.netlify.app", // If using Netlify
   ],
