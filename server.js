@@ -18,6 +18,7 @@ const corsOptions = {
     "https://raymondfdavey.github.io",
     "https://your-app.vercel.app", // If using Vercel
     "https://your-app.netlify.app", // If using Netlify
+    "https://www.diarytxt.co.uk", // Add your new domain
   ],
   credentials: true,
 };
